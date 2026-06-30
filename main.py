@@ -7,14 +7,22 @@ response = requests.get(url)
 print(response.status_code)
 
 soup = BeautifulSoup(response.text, 'html.parser')
-title=soup.find("h1")
 
-books = soup.find_all("article")
 
-print(type(books))
+books = soup.find_all("article",class_="product_pod")
+
 print(len(books))
-print(books[0])
-print(books[0])
 
-print(title.text)
-print(type(title))
+for book in books:
+    title=book.find("h3").find("a")["title"]
+    price=book.find("p",class_="price_color").text
+    availability=book.find("p",class_="instock availability").text.strip()
+    print(f"Title: {title}, Price: {price}, Availability: {availability}")
+    rating=book.find("p",class_="star-rating")["class"][1]
+    link=book.find("h3").find("a")["href"]
+    print("Title:", title)
+    print("Price:", price)
+    print("Availability:", availability)
+    print("Rating:", rating)
+    print("Link:", link)
+    print("-" * 40)
