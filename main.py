@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 url = 'https://books.toscrape.com'
 
 response = requests.get(url)
@@ -32,4 +33,5 @@ for book in books:
 
     books_data.append(book_data)
 
-    print(books_data)
+df = pd.DataFrame(books_data)
+print(df)
