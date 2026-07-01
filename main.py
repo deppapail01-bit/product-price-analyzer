@@ -34,4 +34,18 @@ for book in books:
     books_data.append(book_data)
 
 df = pd.DataFrame(books_data)
+five_star_books=df[df["rating"]=="Five"]
+print(five_star_books)
 print(df)
+print(df.head())
+print(df.describe())
+print(df.info())
+print(df["title"])
+print(df["price"][0])
+print(df.info())
+
+print(df.dtypes) 
+df["price"] = df["price"].str.replace("Â£","",regex=False)
+df["price"] = df["price"].astype(float)
+print(df.dtypes)
+print("Μέσητιμή :",df["price"].mean())
