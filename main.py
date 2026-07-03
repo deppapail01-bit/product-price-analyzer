@@ -22,6 +22,8 @@ cheapest_book = get_cheapest_book(df)
 average_price = get_average_price(df)
 
 sorted_books = df.sort_values(by="price", ascending=False)
+df.to_excel("books.xlsx", index=False)
+sorted_books.to_excel("books_sorted_by_price.xlsx", index=False)
 
 print("========== BOOK ANALYZER ==========")
 
