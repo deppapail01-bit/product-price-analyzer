@@ -1,6 +1,6 @@
 import pandas as pd
 from database import save_books_to_database
-from database import load_books_from_database
+from database import (get_books_by_price_range, get_all_books , get_five_star_books, get_top_5_expensive_books, get_average_price,search_books_by_title,get_books_by_rating)
 
 from scraper import scrape_books
 from analysis import (
@@ -81,56 +81,59 @@ save_books_to_database(df)
 
 print("\n===== DATA FROM DATABASE =====")
 
-database_df = load_books_from_database()
 
-print(database_df.head())
 
-choice = input("""
+
+
+save_books_to_database(df)
+
+
+def show_menu():
+    print("""
 ========== BOOK ANALYZER ==========
 
 1. Όλα τα βιβλία
 2. Βιβλία με 5 αστέρια
 3. Top 5 ακριβότερα
 4. Μέση τιμή
-5. Έξοδος
-
-Επιλογή: 
+5. Αναζήτηση βιβλίου με τίτλο
+6. Βιβλία σε εύρος τιμών
+7. Βιβλία με συγκεκριμένο rating
+8. Έξοδος
 """)
 
+
+show_menu()
+
+choice = input("Επιλογή: ")
+
 if choice == "1":
-    query = "SELECT * FROM books"
-    result = load_books_from_database(query)
-    print(result)
+    print(get_all_books())
 
 elif choice == "2":
-    query = """
-    SELECT *
-    FROM books
-    WHERE rating = 'Five'
-    """
-    result = load_books_from_database(query)
-    print(result)
+    print(get_five_star_books())
 
 elif choice == "3":
-    query = """
-    SELECT *
-    FROM books
-    ORDER BY price DESC
-    LIMIT 5
-    """
-    result = load_books_from_database(query)
-    print(result)
+    print(get_top_5_expensive_books())
 
 elif choice == "4":
-    query = """
-    SELECT AVG(price) AS average_price
-    FROM books
-    """
-    result = load_books_from_database(query)
-    print(result)
+    print(get_average_price())
 
 elif choice == "5":
+    title = input("Δώσε μέρος του τίτλου: ")
+    print(search_books_by_title(title))
+
+elif choice == "6":
+    min_price = float(input("Ελάχιστη τιμή: "))
+    max_price = float(input("Μέγιστη τιμή: "))
+    print(get_books_by_price_range(min_price, max_price))
+
+elif choice == "7":
+    rating = input("Δώσε rating (One, Two, Three, Four, Five): ")
+    print(get_books_by_rating(rating))
+
+elif choice == "8":
     print("Έξοδος από το πρόγραμμα.")
 
 else:
-    print("Μη έγκυρη επιλογή. Παρακαλώ δοκιμάστε ξανά.")
+    print("Μη έγκυρη επιλογή.")
