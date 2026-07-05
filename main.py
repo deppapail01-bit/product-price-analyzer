@@ -1,4 +1,5 @@
 import pandas as pd
+from database import save_books_to_database
 
 from scraper import scrape_books
 from analysis import (
@@ -74,3 +75,5 @@ print("\nTop 5 πιο ακριβά βιβλία")
 print(sorted_books.head())
 
 print("\n===================================")
+
+save_books_to_database(df)
