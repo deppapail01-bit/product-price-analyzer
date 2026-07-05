@@ -1,5 +1,6 @@
 import pandas as pd
 from database import save_books_to_database
+from database import load_books_from_database
 
 from scraper import scrape_books
 from analysis import (
@@ -77,3 +78,59 @@ print(sorted_books.head())
 print("\n===================================")
 
 save_books_to_database(df)
+
+print("\n===== DATA FROM DATABASE =====")
+
+database_df = load_books_from_database()
+
+print(database_df.head())
+
+choice = input("""
+========== BOOK ANALYZER ==========
+
+1. Όλα τα βιβλία
+2. Βιβλία με 5 αστέρια
+3. Top 5 ακριβότερα
+4. Μέση τιμή
+5. Έξοδος
+
+Επιλογή: 
+""")
+
+if choice == "1":
+    query = "SELECT * FROM books"
+    result = load_books_from_database(query)
+    print(result)
+
+elif choice == "2":
+    query = """
+    SELECT *
+    FROM books
+    WHERE rating = 'Five'
+    """
+    result = load_books_from_database(query)
+    print(result)
+
+elif choice == "3":
+    query = """
+    SELECT *
+    FROM books
+    ORDER BY price DESC
+    LIMIT 5
+    """
+    result = load_books_from_database(query)
+    print(result)
+
+elif choice == "4":
+    query = """
+    SELECT AVG(price) AS average_price
+    FROM books
+    """
+    result = load_books_from_database(query)
+    print(result)
+
+elif choice == "5":
+    print("Έξοδος από το πρόγραμμα.")
+
+else:
+    print("Μη έγκυρη επιλογή. Παρακαλώ δοκιμάστε ξανά.")
